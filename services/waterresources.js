@@ -10,12 +10,13 @@ exports.getResources = async ({ name }) => {
 };
 exports.get = async ({ waterResourcesId }) => {};
 
-exports.updateResources = async ({ waterResourceExists, valoracion }) => {
+exports.updateResources = async ({ waterResourceExists, valoracion, date }) => {
     waterResourceExists.valoracion.pH.push(valoracion.pH[0]);
     waterResourceExists.valoracion.conductivity.push(valoracion.conductivity[0]);
     waterResourceExists.valoracion.temperature.push(valoracion.temperature[0]);
     waterResourceExists.valoracion.turbidity.push(valoracion.turbidity[0]);
     waterResourceExists.valoracion.depth.push(valoracion.depth[0]);
+    waterResourceExists.date.push(date[0])
     await WaterResource.findOneAndUpdate(
         { _id: waterResourceExists._id },
         { $set: waterResourceExists },

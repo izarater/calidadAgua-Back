@@ -39,10 +39,10 @@ const fuenteSchema = new mongoose.Schema({
             default: 0,
         },
     },
-    date: {
+    date: [{
         type: String,
         required: true,
-    },
+    }],
     idDispositivo: {
         type: Number,
         default: 0,
