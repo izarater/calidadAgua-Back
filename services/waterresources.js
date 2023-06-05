@@ -16,6 +16,7 @@ exports.updateResources = async ({ waterResourceExists, valoracion, date }) => {
     waterResourceExists.valoracion.temperature.push(valoracion.temperature[0]);
     waterResourceExists.valoracion.turbidity.push(valoracion.turbidity[0]);
     waterResourceExists.valoracion.depth.push(valoracion.depth[0]);
+    waterResource.date[0] = moment().format("MMMM Do YYYY, h:mm:ss a");
     waterResourceExists.date.push(date[0])
     await WaterResource.findOneAndUpdate(
         { _id: waterResourceExists._id },
@@ -31,7 +32,7 @@ exports.createResources = async ({ waterResource }) => {
     if (waterResourceExists) {
         createWaterResourceId = this.updateResources({ waterResourceExists, valoracion });
     } else {
-        waterResource.date = moment().format("MMMM Do YYYY, h:mm:ss a");
+        waterResource.date[0] = moment().format("MMMM Do YYYY, h:mm:ss a");
         createWaterResourceId = await waterResource.save();
     }
     return createWaterResourceId;

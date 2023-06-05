@@ -16,10 +16,10 @@ router.get("/", async function (req, res) {
     }
 });
 
-router.get("/:date", async function (req, res) {
+router.get("/:name", async function (req, res) {
     try {
-        const { date } = req.params;
-        const waterResource = await WaterResourcesService.getResources({ date });
+        const { name } = req.params;
+        const waterResource = await WaterResourcesService.getResources({ name });
         res.status(200);
         res.send(waterResource);
     } catch (error) {
@@ -30,7 +30,7 @@ router.get("/:date", async function (req, res) {
 router.post(
     "/add",
     [
-        check("date", "Provide an date").exists(),
+        check("name", "Provide an name").exists(),
         check("valoracion", "Provide an object valoracion").exists(),
         check("coordenadas", "Provide an object coordenadas").exists(),
     ],
@@ -56,7 +56,7 @@ router.post(
 router.put(
     "/edit/:waterResourcesId",
     [
-        check("date", "Provide an date").exists(),
+        check("name", "Provide an name").exists(),
         check("valoracion", "Provide an object valoracion").exists(),
     ],
     async function (req, res) {
