@@ -20,8 +20,7 @@ router.get("/:name", async function (req, res) {
     try {
         const { name } = req.params;
         const waterResource = await WaterResourcesService.getResources({ name });
-        res.status(200);
-        res.send(waterResource);
+        res.status(200).json(waterResource);
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -110,6 +109,33 @@ router.delete("/:waterResourcesId", async function (req, res) {
         });
     }
 });
+
+
+// Delete route for a specific property value by index
+
+router.delete("/:name/deleteValue/:index", async function (req, res) {
+    try {
+        const { name, index } = req.params;
+        const waterResource = await WaterResourcesService.getResources({ name });
+
+        // Remove the value at the specified index from the array
+        waterResource.valoracion.pH.splice(index, 1);
+        waterResource.valoracion.conductivity.splice(index, 1);
+        waterResource.valoracion.turbidity.splice(index, 1);
+        waterResource.valoracion.temperature.splice(index, 1);
+        waterResource.valoracion.depth.splice(index, 1);
+        waterResource.valoracion.date.splice(index, 1);
+
+
+        // Save the updated water resource data
+        await waterResource.save();
+
+        res.status(200).json({ message: `Values at index ${index} of ${name} deleted successfully` });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
 
 module.exports = router;
 

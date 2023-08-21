@@ -6,8 +6,14 @@ exports.getListResources = async () => {
 };
 
 exports.getResources = async ({ name }) => {
-    await WaterResource.findOne({ name });
+    try {
+        const waterResource = await WaterResource.findOne({ name });
+        return waterResource; // Return the retrieved data
+    } catch (error) {
+        throw error;
+    }
 };
+
 exports.get = async ({ waterResourcesId }) => {};
 
 exports.updateResources = async ({ waterResourceExists, valoracion}) => {
