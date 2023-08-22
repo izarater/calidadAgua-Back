@@ -26,6 +26,26 @@ router.get("/:name", async function (req, res) {
     }
 });
 
+router.get("/:name/date/", async function (req, res) {
+    try {
+        const { name } = req.params;
+        const waterResource = await WaterResourcesService.getResources({ name });
+        res.status(200).json(waterResource.date);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+router.get("/:name/date/:index", async function (req, res) {
+    try {
+        const { name, index } = req.params;
+        const waterResource = await WaterResourcesService.getResources({ name });
+        res.status(200).json(waterResource.date[index]);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+});
+
 router.post(
     "/add",
     [
@@ -140,8 +160,8 @@ router.delete("/:name/deleteValue/:index", async function (req, res) {
                 waterResource.valoracion.depth.splice(index, 1);
             }else {
                 return res.status(400).json({ error: `Index ${index} is out of range for depth array` });
-            }if (waterResource.valoracion.date && waterResource.valoracion.date.length > index) {
-                waterResource.valoracion.date.splice(index, 1);
+            }if (waterResource.date && waterResource.date.length > index) {
+                waterResource.date.splice(index, 1);
             }else {
                 return res.status(400).json({ error: `Index ${index} is out of range for date array` });
             }
