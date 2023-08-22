@@ -118,14 +118,38 @@ router.delete("/:name/deleteValue/:index", async function (req, res) {
         const { name, index } = req.params;
         const waterResource = await WaterResourcesService.getResources({ name });
 
-        // Remove the value at the specified index from the array
-        waterResource.valoracion.pH.splice(index, 1);
-        waterResource.valoracion.conductivity.splice(index, 1);
-        waterResource.valoracion.turbidity.splice(index, 1);
-        waterResource.valoracion.temperature.splice(index, 1);
-        waterResource.valoracion.depth.splice(index, 1);
-        waterResource.valoracion.date.splice(index, 1);
 
+        if (waterResource && waterResource.valoracion) {
+            if (waterResource.valoracion.pH && waterResource.valoracion.pH.length > index) {
+                waterResource.valoracion.pH.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for pH array` });
+            }if (waterResource.valoracion.conductivity && waterResource.valoracion.conductivity.length > index) {
+                waterResource.valoracion.conductivity.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for conductivity array` });
+            }if (waterResource.valoracion.turbidity && waterResource.valoracion.turbidity.length > index) {
+                waterResource.valoracion.turbidity.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for turbidity array` });
+            }if (waterResource.valoracion.temperature && waterResource.valoracion.temperature.length > index) {
+                waterResource.valoracion.temperature.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for temperature array` });
+            }if (waterResource.valoracion.depth && waterResource.valoracion.depth.length > index) {
+                waterResource.valoracion.depth.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for depth array` });
+            }if (waterResource.valoracion.date && waterResource.valoracion.date.length > index) {
+                waterResource.valoracion.date.splice(index, 1);
+            }else {
+                return res.status(400).json({ error: `Index ${index} is out of range for date array` });
+            }
+        }else {
+            return res.status(400).json({ error: `Could not find the specified water resource or valoracion` });
+        }
+        // Remove the value at the specified index from the array
+        
 
         // Save the updated water resource data
         await waterResource.save();
